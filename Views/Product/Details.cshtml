@@ -1,0 +1,103 @@
+﻿@*@model WebBanThu.Areas.Admin.Models.Product
+
+@{
+    ViewData["Title"] = "Details1";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-8 d-flex">
+                    <!-- Blog Detail Start -->
+                    <div class="mb-5">
+                        <img class="img-fluid w-100 rounded mb-5" src="@ViewBag.Domain@Html.DisplayFor(model => model.Image)" alt="" style="max-width: 600px; height: auto">
+                        <h1 class="text-uppercase mb-4">@Html.DisplayFor(model => model.Tittle)</h1>
+                        <p>@Html.DisplayFor(model => model.Description)</p>
+                    </div>
+                    <!-- Blog Detail End -->
+                </div>
+                <div class="col-lg-4 d-flex">
+
+                    <div>
+                        <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Mua hàng</h3>
+                        <div class="d-flex flex-column justify-content-start">
+                            <p class="card-text">Giá: @Html.DisplayFor(model => model.Price)</p>
+                            <p class="card-text">Số lượng còn lại:@Html.DisplayFor(model => model.Quantity)</p>
+                            <a href="" class="btn btn-primary">Thêm vào giỏ hàng</a>
+                            <form asp-route-id="@Html.DisplayFor(model => model.Id)" asp-action="AddToCart" asp-controller="ShoppingCart">
+                                <div class="mb-5">
+                                    <div class="input-group mb-3" style="max-width: 120px;">
+                                        <div class="input-group-prepend">
+                                            <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                        </div>
+                                        <input type="text" class="form-control text-center" value="1" name="SoLuong" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+*@
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var product = ViewBag.product; 
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+            <meta charset="utf-8">
+            <title>PET SHOP - Dịch vụ chăm sóc của chúng tôi - @ViewBag.ProductTittle</title>
+            <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+            <link href="~/css/product.css" rel="stylesheet">
+
+    </head>
+
+    <body>
+
+            <!-- Blog Start -->
+            <div class="container py-5">
+                <div class="row g-5">
+                    <div class="col-lg-8 d-flex">
+                        <!-- Blog Detail Start -->
+                        <div class="mb-5">
+                            <img class="img-fluid w-100 rounded mb-5" src="@ViewBag.Domain@product.Image" alt="" style="max-width: 600px; height: auto">
+                            <h1 class="text-uppercase mb-4">@product.Tittle</h1>
+                            <p>@product.Description</p>
+                        </div>
+                        <!-- Blog Detail End -->
+                    </div>
+                    <div class="col-lg-4 d-flex">
+
+                        <div>
+                            <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Mua hàng</h3>
+                            <div class="d-flex flex-column justify-content-start">
+                                <p class="card-text">Giá: @product.Price</p>
+                                <p class="card-text">Số lượng còn lại: @product.Quantity</p>
+                            @if (@product.Quantity > 0)
+                            {
+                                        <a href="" class="btn btn-primary">Thêm vào giỏ hàng</a>
+                            }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </body>
+
+    </html>
+
+
+}

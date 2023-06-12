@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebBanThu.Areas.Admin.Models.Service_DetailModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>IndexDetail</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebBanThu.styles.css" asp-append-version="true" />
+</head>
+<body>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuongCa)
+            </th>
+            <th>
+                 Giờ 
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayThucHien)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuongCa)
+            </td>
+             <td>
+                       
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayThucHien)
+            </td>
+        
+        </tr>
+}
+    </tbody>
+</table>
+ <script src="~/lib/jquery/dist/jquery.min.js"></script>
+ <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+﻿@model IEnumerable<WebBanThu.Areas.Admin.Models.Bill>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<h1>Hóa Đơn</h1>
+
+<section class="content">
+    <div class="container-fluid">        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            Tổng tiền
+                        </th>
+                        <th>
+                            thời gian đặt hàng
+                        </th>
+                        <th>
+                            tên khách hàng
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                            <tfoot>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Id)
+                        </th>
+                        <th>
+                            Tổng tiền
+                        </th>
+                        <th>
+                            thời gian đặt hàng
+                        </th>
+                        <th>
+                            tên khách hàng
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                            <tbody>
+                    @foreach (var item in Model)
+                    {
+                            <tr>
+                                <td>
+                                @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                @Html.DisplayFor(modelItem => item.Price)
+                                </td>
+                                <td>
+                                @Html.DisplayFor(modelItem => item.dateTime)
+                                </td>
+                                <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger btn-icon-split">
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-trash"></i>
+                                        </span>
+                                        <span class="text">Xem</span>
+                                    </a>
+                                </td>
+                            </tr>
+                    }
+                </tbody>
+                        </table>
+                     </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>PET SHOP - Mua thú cưng của chúng tôi - @ViewBag.ProductTittle </title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <link href="~/css/product.css" rel="stylesheet">
+    </head>
+
+
+    <body>
+
+
+        <select id="category-select">
+            <option value="">All</option>
+            @foreach (var category in ViewBag.Categories)
+            {
+                <option value="@category.Id">@category.Tittle</option>
+            }
+        </select>
+
+        <button id="filter-button">Filter</button>
+
+
+
+        <ul id="product-list">
+            @foreach (var product in ViewBag.Products)
+            {
+                if (product.Isdelete == 0)
+                {
+
+                    <form asp-route-id="@product.Id" asp-action="AddToCart" asp-controller="ShoppingCart">
+                        <div class="card" data-categoryid="@product.CategoryId">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <img class="card-img-top" src="@ViewBag.Domain@product.Image" alt="Product Image">
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-6">
+                                    <h5 class="card-title">@product.Tittle</h5>
+
+                                    <p class="card-text">Giá: @product.Price</p>
+                                    <p class="card-text">Số lượng còn lại: @product.Quantity</p>
+                                    <a class="btn btn-primary" href="@Url.Action("Details", "Product", new { id = product.Id })">Chi tiết</a>
+
+                                    <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                }
+
+            }
+        </ul>
+
+
+        <!-- Script -->
+        <script src="~/js/product.js"></script>
+        <script>
+            document.getElementById("filter-button").addEventListener("click", function () {
+                var categorySelect = document.getElementById("category-select");
+                var selectedCategoryId = categorySelect.options[categorySelect.selectedIndex].value;
+                var productList = document.getElementById("product-list");
+                var productCards = productList.getElementsByClassName("card");
+
+                for (var i = 0; i < productCards.length; i++) {
+                    var productCard = productCards[i];
+                    var categoryId = productCard.getAttribute("data-categoryid");
+
+                    if (selectedCategoryId === "" || selectedCategoryId === categoryId) {
+                        productCard.style.display = "block";
+                    } else {
+                        productCard.style.display = "none";
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
+
+
+
+}

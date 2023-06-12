@@ -1,0 +1,63 @@
+﻿@model WebBanThu.Areas.Admin.Models.Service_DetailModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Thêm Mới Lịch Dịch Vụ</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form asp-action="Create" >
+        <div class="card-body">
+            
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <button id="msgAlert" type="button" class="btn btn-danger toastsDefaultDanger">
+                @if (ViewBag.Loi != null)
+                {
+                    <p>đã tồn tại lịch</p>
+                }
+            </button>
+            
+            <div class="form-group">
+                <label asp-for="IdService" class="control-label"></label>
+                <input asp-for="IdService" class="form-control" />
+                <span asp-validation-for="IdService" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdTime" class="control-label"></label>
+                <select asp-for="IdTime"  asp-items="@ViewBag.Time" class="form-control"></select>
+                <span asp-validation-for="IdTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SoLuongCa" class="control-label"></label>
+                <input asp-for="SoLuongCa" class="form-control" />
+                <span asp-validation-for="SoLuongCa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NgayThucHien" class="control-label"></label>
+                <input asp-for="NgayThucHien" class="form-control" />
+                <span asp-validation-for="NgayThucHien" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000)
+    </script>
+}

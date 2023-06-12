@@ -1,0 +1,62 @@
+﻿@model WebBanThu.Areas.Admin.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Sửa</h3>
+    </div>
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form asp-action="Edit" enctype="multipart/form-data">
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label  class="control-label">Tên Sản Phẩm</label>
+                <input asp-for="Tittle" class="form-control" />
+                <span asp-validation-for="Tittle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Mô tả</label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Hình Ảnh</label>
+                <input type="file" name="file" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Số Lượng</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Giá Tiền</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Trạng Thái</label>
+                <input asp-for="Isdelete" class="form-control" />
+                <span asp-validation-for="Isdelete" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label  class="control-label">Loại</label>
+                <select asp-for="CategoryId" asp-items="@ViewBag.CategoryId" class="form-control"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

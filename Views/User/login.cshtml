@@ -1,0 +1,235 @@
+﻿@model WebBanThu.Models.SignInModel
+@{
+    Layout = null;
+}
+@*<!--
+	Author: W3layouts
+	Author URL: http://w3layouts.com
+	License: Creative Commons Attribution 3.0 Unported
+	License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+
+<!DOCTYPE html>
+<html>
+
+<!-- Head -->
+<head>
+
+<title>Existing Login Form a Flat Responsive Widget Template :: W3layouts</title>
+
+<!-- Meta-Tags -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords" content="Existing Login Form Widget Responsive, Login Form Web Template, Flat Pricing Tables, Flat Drop-Downs, Sign-Up Web Templates, Flat Web Templates, Login Sign-up Responsive Web Template, Smartphone Compatible Web Template, Free Web Designs for Nokia, Samsung, LG, Sony Ericsson, Motorola Web Design">
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //Meta-Tags -->
+
+<link href="~/dangnhap/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" />
+
+<!-- Style --> <link rel="stylesheet" href="~/dangnhap/css/style.css" type="text/css" media="all">
+
+<!-- Fonts -->
+<link href="//fonts.googleapis.com/css?family=Quicksand:300,400,500,700" rel="stylesheet">
+<!-- //Fonts -->
+
+</head>
+<!-- //Head -->
+
+<!-- Body -->
+<body>
+
+	<h1>EXISTING LOGIN FORM</h1>
+
+	<div class="w3layoutscontaineragileits">
+	<h2>Login here</h2>
+		<form asp-action="login" asp-controller="User"  method="post">
+			<input type="email" asp-for="Email" placeholder="nhập tài khoảng" >
+			<input type="password" asp-for="PassWord" placeholder="nhập mật khẩu">
+			<ul class="agileinfotickwthree">
+				<li>
+					<input type="checkbox" id="brand1" value="">
+					<label for="brand1"><span></span>Remember me</label>
+					<button asp-action="Register" asp-controller="User" method="post" class="btn btn-primary" type="submit">Đăng ký</button>
+				</li>
+			</ul>
+			<div class="aitssendbuttonw3ls">
+				<button  class="btn btn-primary" type="submit">Đăng nhập</button>
+			</div>
+		</form>
+	</div>
+	
+	<!-- for register popup -->
+	<div id="small-dialog1" class="mfp-hide">
+		<div class="contact-form1">
+			<div class="contact-w3-agileits">
+				<h3>Register Form</h3>
+				<form action="#" method="post">
+						<div class="form-sub-w3ls">
+							<input placeholder="User Name"  type="text" required="">
+							<div class="icon-agile">
+								<i class="fa fa-user" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="form-sub-w3ls">
+							<input placeholder="Email" class="mail" type="email" required="">
+							<div class="icon-agile">
+								<i class="fa fa-envelope-o" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="form-sub-w3ls">
+							<input placeholder="Password"  type="password" required="">
+							<div class="icon-agile">
+								<i class="fa fa-unlock-alt" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="form-sub-w3ls">
+							<input placeholder="Confirm Password"  type="password" required="">
+							<div class="icon-agile">
+								<i class="fa fa-unlock-alt" aria-hidden="true"></i>
+							</div>
+						</div>
+					<div class="login-check">
+						 <label class="checkbox"><input type="checkbox" name="checkbox" checked="">I Accept Terms & Conditions</label>
+					</div>
+					<div class="submit-w3l">
+						<input type="submit" value="Register">
+					</div>
+				</form>
+			</div>
+		</div>	
+	</div>
+	<!-- //for register popup -->
+	
+	<div class="w3footeragile">
+		<p> &copy; 2017 Existing Login Form. All Rights Reserved | Design by <a href="http://w3layouts.com" target="_blank">W3layouts</a></p>
+	</div>
+
+	
+	<script src="~/dangnhap/js/jquery-2.1.4.min.js"></script>
+
+	<!-- pop-up-box-js-file -->
+	<script src="~/dangnhap/js/jquery.magnific-popup.js"></script>
+	<!--//pop-up-box-js-file -->
+	<script>
+		$(document).ready(function() {
+		$('.w3_play_icon,.w3_play_icon1,.w3_play_icon2').magnificPopup({
+			type: 'inline',
+			fixedContentPos: false,
+			fixedBgPos: true,
+			overflowY: 'auto',
+			closeBtnInside: true,
+			preloader: false,
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'my-mfp-zoom-in'
+		});
+																		
+		});
+	</script>
+
+</body>
+<!-- //Body -->
+
+</html>*@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>SB Admin 2 - Login</title>
+
+	<!-- Custom fonts for this template-->
+	<link href="~/dangnhap/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+	<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+		  rel="stylesheet">
+
+	<!-- Custom styles for this template-->
+	<link href="~/dangnhap/css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body class="bg-gradient-primary">
+
+	<div class="container">
+
+		<!-- Outer Row -->
+		<div class="row justify-content-center">
+
+			<div class="col-xl-10 col-lg-12 col-md-9">
+
+				<div class="card o-hidden border-0 shadow-lg my-5">
+					<div class="card-body p-0">
+						<!-- Nested Row within Card Body -->
+						<div class="row">
+							<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+							<div class="col-lg-6">
+								<div class="p-5">
+									<div class="text-center">
+										<h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+									</div>
+									<form method="post">
+										<div class="form-group">
+											<input type="email" asp-for="Email" class="form-control form-control-user"
+												   id="exampleInputEmail" aria-describedby="emailHelp"
+												   placeholder="Enter Email Address...">
+										</div>
+										<div class="form-group">
+											<input type="password" asp-for="PassWord" class="form-control form-control-user"
+												   id="exampleInputPassword" placeholder="Password">
+										</div>
+										<div class="form-group">
+											<div class="custom-control custom-checkbox small">
+												<input type="checkbox" class="custom-control-input" id="customCheck">
+												<label class="custom-control-label" for="customCheck">
+													Remember
+													Me
+												</label>
+											</div>
+										</div>
+										<button class="btn btn-primary btn-user btn-block" type="submit" >Đăng nhập</button>
+										<hr>
+										<a href="index.html" class="btn btn-google btn-user btn-block">
+											<i class="fab fa-google fa-fw"></i> Login with Google
+										</a>
+										<a href="index.html" class="btn btn-facebook btn-user btn-block">
+											<i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+										</a>
+									</form>
+									<hr>
+									<div class="text-center">
+										<a class="small" href="forgot-password.html">Forgot Password?</a>
+									</div>
+									<div class="text-center">
+										<a class="small" asp-action="Register" asp-controller="User" method="post">Create an Account!</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Bootstrap core JavaScript-->
+	<script src="~/dangnhap/vendor/jquery/jquery.min.js"></script>
+	<script src="~/dangnhap/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Core plugin JavaScript-->
+	<script src="~/dangnhap/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+	<!-- Custom scripts for all pages-->
+	<script src="~/dangnhap/js/sb-admin-2.min.js"></script>
+
+</body>
+
+</html>

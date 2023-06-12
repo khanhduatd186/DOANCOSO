@@ -1,0 +1,87 @@
+﻿@model IEnumerable<WebBanThu.Areas.Admin.Models.UserModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+
+<section class="content">
+    <div class="container-fluid">
+        <h1>Quản Lý Tài Khoản</h1>
+        <a asp-action="Create" class="btn btn-success btn-icon-split">
+            <span class="icon text-white-50"></span>
+            <span class="text">Thêm Tài Khoản</span>
+        </a>
+        <a asp-action="AddRoleAdmin" class="btn btn-success btn-icon-split">
+            <span class="icon text-white-50"></span>
+            <span class="text">Cập nhập Role </span>
+        </a>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                    <tr>
+                        <th>
+                            Tên 
+                        </th>
+                        <th>
+                            Số Điện Thoại
+                        </th>
+                        <th>
+                            Địa Chỉ
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                            <tfoot>
+                    <tr>
+                        <th>
+                            Tên
+                        </th>
+                        <th>
+                            Số Điện Thoại
+                        </th>
+                        <th>
+                            Địa Chỉ
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+                            <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Phone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Adddress)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                       
+                        </tr>
+                    }
+                </tbody>
+                        </table>
+                     </div>
+                  </div>
+             </div>
+        </div>
+    </div>
+</section>

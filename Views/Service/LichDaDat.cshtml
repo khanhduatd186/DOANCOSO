@@ -1,0 +1,44 @@
+﻿@model IEnumerable<WebBanThu.Areas.Admin.Models.Service_Cart>
+
+@{
+    ViewData["Title"] = "LichDaDat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>LichDaDat</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Dịch Vụ
+            </th>
+            <th>
+               Tên Khách Hàng
+            </th>
+            <th>
+                Thời Gian
+            </th>
+           
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateTime)
+            </td>
+            
+        </tr>
+}
+    </tbody>
+</table>

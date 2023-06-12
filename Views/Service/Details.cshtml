@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var service = ViewBag.Service;
+   
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+         <meta charset="utf-8">
+        <title>PET SHOP - Mua thú cưng của chúng tôi - @ViewBag.ServiceTittle </title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <link href="~/css/product.css" rel="stylesheet">
+        
+    </head>
+
+    <body>
+
+        <!-- Blog Start -->
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-8 d-flex">
+                    
+                    <div class="mb-5">
+                        
+                        <h1 class="text-uppercase mb-4">@service.Tittle</h1>
+                        <p>@service.Description</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-flex" style="padding: 50px">
+                    <div>
+                        <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Đặt lịch hẹn</h3>
+                        <div class="d-flex flex-column justify-content-start" style="padding: 20px">
+                            <select id="time-select">
+                                @foreach (var time in ViewBag.Times)
+                                {
+                                    <option value="@time.Id">@time.StartTime</option>
+                                }
+                            </select>
+
+                        </div>
+                        <form method="post" asp-action="DatLich" asp-controller="Service" asp-route-email="@User.Identity.Name" asp-route-IdService="@service.Id">
+                            <button type="submit" class="btn btn-primary">Đặt Lịch</button>
+                       
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+      
+    </body>
+
+    </html>
+
+
+}

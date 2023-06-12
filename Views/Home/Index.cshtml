@@ -1,0 +1,185 @@
+﻿@using System.Globalization
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>PET SHOP - Trang chủ</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+       
+    </head>
+
+    <body>
+
+        <!-- Hero Start -->
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-start">
+                    <div class="col-lg-8 text-center text-lg-start">
+                        <h1 class="display-1 text-uppercase text-dark mb-lg-4">Pet Shop</h1>
+                        <h1 class="text-uppercase text-white mb-lg-4">Làm cho thú cưng của bạn hạnh phúc</h1>
+                        <p class="fs-4 text-white mb-lg-4">Trang web cung cấp thú cưng, thông tin chăm sóc, sức khỏe và hướng dẫn nuôi dưỡng tốt nhất cho thú cưng yêu quý của bạn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid py-5">
+            <div class="container">
+                <div class="row gx-5">
+                    <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
+                        <div class="position-relative h-100">
+                            <img class="position-absolute w-100 h-100 rounded" src="/img/about.jpg" style="object-fit: cover;">
+                        </div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="border-start border-5 border-primary ps-5 mb-5">
+                            <h6 class="text-primary text-uppercase">Chúng tôi làm gì</h6>
+                            <h1 class="display-5 text-uppercase mb-0">Chúng tôi giữ cho thú cưng của bạn luôn vui vẻ</h1>
+                        </div>
+
+                        <ul class="nav nav-pills justify-content-between mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item w-50" role="presentation">
+                                <button class="nav-link text-uppercase w-100 active" id="pills-1-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-1" type="button" role="tab" aria-controls="pills-1"
+                                        aria-selected="true">
+                                    Nhiệm vụ của chúng tôi
+                                </button>
+                            </li>
+                            <li class="nav-item w-50" role="presentation">
+                                <button class="nav-link text-uppercase w-100" id="pills-2-tab" data-bs-toggle="pill"
+                                        data-bs-target="#pills-2" type="button" role="tab" aria-controls="pills-2"
+                                        aria-selected="false">
+                                    Tầm nhìn của chúng tôi
+                                </button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-1" role="tabpanel" aria-labelledby="pills-1-tab">
+                                <p class="mb-0">
+                                    Nhiệm vụ của chúng tôi là mang lại niềm vui và hạnh phúc cho thú cưng của bạn.
+                                    Chúng tôi cam kết cung cấp dịch vụ bán thú cưng chất lượng và thông tin chăm sóc tận tâm để đảm bảo sự an lành và sự phát triển tốt nhất cho bạn và người bạn bốn chân của bạn.
+                                </p>
+                            </div>
+                            <div class="tab-pane fade" id="pills-2" role="tabpanel" aria-labelledby="pills-2-tab">
+                                <p class="mb-0">
+                                    Tầm nhìn của chúng tôi là xây dựng một cộng đồng yêu thú cưng đồng lòng và hạnh phúc.
+                                    Chúng tôi mong muốn tạo ra một nền tảng kết nối người yêu thú cưng với nhau, cung cấp thông tin, dịch vụ và sản phẩm chất lượng để đảm bảo sự hạnh phúc và sức khỏe tối đa cho thú cưng của mọi gia đình.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- About End -->
+        <!-- Services Start -->
+        <div class="container-fluid py-5">
+            <div class="container">
+                <div class="border-start border-5 border-primary ps-5 mb-5" style="max-width: 600px;">
+                    <h6 class="text-primary text-uppercase">Services</h6>
+                    <h1 class="display-5 text-uppercase mb-0">Our Excellent Pet Care Services</h1>
+                </div>
+                <div class="row g-5">
+
+                    
+                    
+
+                    @foreach (var service in ViewBag.Services)
+                    {
+                        if (service.Isdelete == 0)
+                        {
+
+                            <div class="col-md-6">
+                                <div class="service-item bg-light d-flex p-4">
+                                    <i class="flaticon-vaccine display-1 text-primary me-4"></i>
+                                    <div>
+                                        <h5 class="text-uppercase mb-3">@service.Tittle</h5>
+                                        <a class="text-primary text-uppercase" href="@Url.Action("Details", "Service", new { id = service.Id })">Đặt lịch hẹn<i class="bi bi-chevron-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                        }
+                      
+
+                    }
+
+                    <a asp-controller="Service" asp-action="Index" class="nav-item nav-link">Xem thêm dịch vụ</a>
+                    
+                </div>
+            </div>
+        </div>
+        <!-- Services End -->
+        <!-- Products Start -->
+        <div class="container-fluid py-5">
+            <div class="container" >
+              
+                @foreach (var product in ViewBag.Products)
+                {
+                    if (product.Isdelete == 0)
+                    {
+
+                        
+                            <div class="row" style="padding: 20px">
+                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                    <img class="card-img-top" src="@ViewBag.Domain@product.Image" alt="Product Image">
+                                </div>
+                                <div class="col-lg-9 col-md-8 col-sm-6">
+                                    <h5 class="card-title">@product.Tittle</h5>
+
+                                    <p class="card-text">Giá: @product.Price</p>
+                                    
+                                    <form asp-route-id="@product.Id" asp-action="AddToCart" asp-controller="ShoppingCart">
+                                        <div class="mb-5">
+                                            <div class="input-group mb-3" style="max-width: 120px;">
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                                                </div>
+                                                <input type="text" class="form-control text-center" value="1" name="SoLuong" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <a class="btn btn-primary" asp-route-id="@product.Id" asp-action="Details" asp-controller="Product">Chi tiết</a>
+                                        <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+                                    </form>
+
+                                </div>
+
+                            </div>
+                        
+   
+                    }
+
+                }
+
+                <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Xem thêm thú cưng</a>
+
+            </div>
+                
+        </div>
+
+        <!-- Products End -->
+       
+    <script src="/content/js/site.js"></script>
+    <script src="/content/js/cart.js"></script>
+    </body>
+
+    </html>
+    
+}
+
+
+
+
+
+
+
+
+                                        
