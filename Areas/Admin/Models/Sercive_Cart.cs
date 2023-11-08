@@ -10,6 +10,7 @@ namespace WebBanThu.Areas.Admin.Models
         public string Title { get; set; }
         public string Name { get; set; }
         public DateTime? dateTime { get; set; }
+        public string Time { get; set; }
     }
  
 }

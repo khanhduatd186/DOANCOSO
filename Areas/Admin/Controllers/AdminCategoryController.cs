@@ -8,6 +8,7 @@ using WebBanThu.Areas.Admin.Models;
 namespace WebBanThu.Areas.Admin.Controllers
 {
     //[Authorize]
+    [Authorize(Roles = "ADMIN")]
     [Area("Admin")]
     public class AdminCategoryController : Controller
     {

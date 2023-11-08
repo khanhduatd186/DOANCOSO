@@ -10,13 +10,13 @@ namespace WebBanThu.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
         string domain = "https://localhost:7253/";
         HttpClient client = new HttpClient();
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+  
         }
 
         public async Task<IActionResult> Index()
@@ -62,7 +62,7 @@ namespace WebBanThu.Controllers
         {
             ViewBag.Domain = domain;
             client.BaseAddress = new Uri(domain);
- 
+
             string datajson = await client.GetStringAsync("api/Product_Bill/" + IdBill);
             List<Product_BillModel> Bills = JsonConvert.DeserializeObject<List<Product_BillModel>>(datajson);
             List<Product_Bill> bills = new List<Product_Bill>();
@@ -76,6 +76,8 @@ namespace WebBanThu.Controllers
             return View(bills);
 
         }
+
+      
 
         public IActionResult Privacy()
         {

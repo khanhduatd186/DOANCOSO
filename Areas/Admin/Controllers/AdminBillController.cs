@@ -9,6 +9,7 @@ using WebBanThu.Models;
 namespace WebBanThu.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "ADMIN")]
     //[Authorize]
     public class AdminBillController : Controller
     {
@@ -26,13 +27,13 @@ namespace WebBanThu.Areas.Admin.Controllers
             {
                 string data = await client.GetStringAsync("api/Account/GetUserById/" + i.IdUser);
                 UserModel user = JsonConvert.DeserializeObject<UserModel>(data);
-                var bill = new Bill { Id = i.Id, Price = i.Price, dateTime = i.dateTime, Name = user.Name };
+                var bill = new Bill { Id = i.Id, Price = i.Price, dateTime = i.dateTime, Name = user.Name , Status = i.Status };
                 bills.Add(bill);
             }
             return View(bills);
 
         }
-
+      
         [HttpGet]
 
         public async Task<IActionResult> Create()
@@ -76,14 +77,31 @@ namespace WebBanThu.Areas.Admin.Controllers
 
 
         [HttpPost]
-
-        public async Task<IActionResult> Edit(int id, BillModel p)
+        public async Task<IActionResult> Edit(int id)
 
         {
             try
             {
                 client.BaseAddress = new Uri(domain);
-                string data = JsonConvert.SerializeObject(p);
+                BillModel Bill = new BillModel();
+                HttpResponseMessage response = client.GetAsync("api/Bill/" + id).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    string data1 = response.Content.ReadAsStringAsync().Result;
+
+                    Bill = JsonConvert.DeserializeObject<BillModel>(data1);
+
+                }
+                BillModel billModel = new BillModel
+                {
+                    Id = Bill.Id,
+                    IdUser = Bill.IdUser,
+                    Price = Bill.Price,
+                    dateTime = Bill.dateTime,
+                    Status = 1,
+
+                };
+                string data = JsonConvert.SerializeObject(billModel);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                 HttpResponseMessage responseMessage = client.PutAsync("api/Bill/" + id, content).Result;
                 if (responseMessage.IsSuccessStatusCode)
@@ -99,36 +117,6 @@ namespace WebBanThu.Areas.Admin.Controllers
             }
             return View();
 
-        }
-        [HttpGet]
-
-
-        public async Task<IActionResult> Edit(int id)
-
-        {
-
-
-            try
-            {
-                ViewBag.Domain = domain;
-                client.BaseAddress = new Uri(domain);
-                BillModel Bill = new BillModel();
-
-                HttpResponseMessage response = client.GetAsync("api/Bill/" + id).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    string data = response.Content.ReadAsStringAsync().Result;
-
-                    Bill = JsonConvert.DeserializeObject<BillModel>(data);
-
-                }
-                return View(Bill);
-            }
-            catch (Exception ex)
-            {
-                TempData["errorMessage"] = ex.Message;
-                return View();
-            }
         }
         [HttpGet]
 

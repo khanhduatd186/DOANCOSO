@@ -1,7 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
 using WebBanThu.Areas.Admin.Models;
-
 namespace WebBanThu.Models
 {
     public class CartItem

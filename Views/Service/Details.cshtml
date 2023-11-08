@@ -3,7 +3,10 @@
 *@
 @{
     var service = ViewBag.Service;
-   
+    string time1 = "";
+
+
+} 
     <!DOCTYPE html>
     <html lang="en">
 
@@ -29,32 +32,45 @@
                         <p>@service.Description</p>
                     </div>
                 </div>
+            <form method="post" asp-action="DatLich" asp-controller="Service" asp-route-email="@User.Identity.Name" asp-route-IdService="@service.Id">
                 <div class="col-lg-4 d-flex" style="padding: 50px">
                     <div>
                         <h3 class="text-uppercase border-start border-5 border-primary ps-3 mb-4">Đặt lịch hẹn</h3>
                         <div class="d-flex flex-column justify-content-start" style="padding: 20px">
-                            <select id="time-select">
+                            <select id="time-select" name="SelectedTime">
                                 @foreach (var time in ViewBag.Times)
                                 {
-                                    <option value="@time.Id">@time.StartTime</option>
+                                    <option value="@time.StartTime">@time.StartTime</option>
                                 }
                             </select>
-
                         </div>
-                        <form method="post" asp-action="DatLich" asp-controller="Service" asp-route-email="@User.Identity.Name" asp-route-IdService="@service.Id">
-                            <button type="submit" class="btn btn-primary">Đặt Lịch</button>
-                       
-                        </form>
-                        
+                        <input type="hidden" id="selected-time" name="Time" value="" />
+                        <button type="submit" class="btn btn-primary">Đặt Lịch</button>
                     </div>
                 </div>
+            </form>
+            <script>
+                $(document).ready(function () {
+                    $('#time-select').change(function () {
+                        var selectedTime = $(this).val();
+                        $('#selected-time').val(selectedTime);
+                    });
+                });
+            </script>
+            
+
+
+
+
+
+
+
+            
+                
             </div>
         </div>
-
-      
     </body>
-
     </html>
 
 
-}
+

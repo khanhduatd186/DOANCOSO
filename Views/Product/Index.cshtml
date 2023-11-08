@@ -46,8 +46,10 @@
                                     <p class="card-text">Giá: @product.Price</p>
                                     <p class="card-text">Số lượng còn lại: @product.Quantity</p>
                                     <a class="btn btn-primary" href="@Url.Action("Details", "Product", new { id = product.Id })">Chi tiết</a>
-
-                                    <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+                                    @if(@product.Quantity > 0){
+                                        <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
+                                    }
+                                    
 
                                     
                                 </div>

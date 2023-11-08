@@ -53,7 +53,7 @@
         </tr>
     </table>
 
-    <form asp-controller="ShoppingCart" asp-action="ThanhToan" method="post" asp-route-price="@(total.ToString("n0"))" >
+    <form method="post" asp-controller="ShoppingCart" asp-action="ThanhToan" asp-route-price="@(total.ToString("n0"))">
         <button type="submit" class="btn btn-success">Gửi đơn hàng</button>
     </form>
 

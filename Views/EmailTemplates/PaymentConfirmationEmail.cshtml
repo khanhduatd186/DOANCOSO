@@ -1,0 +1,18 @@
+﻿@model WebBanThu.Models.PaymentConfirmationModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Payment Confirmation</title>
+</head>
+<body>
+    <h2>@Model.Subject</h2>
+    <p>@Model.Body</p>
+    <h3>Product Images:</h3>
+    <ul>
+        @foreach (var image in Model.ProductImages)
+        {
+            <li><img src="@image" alt="Product Image" /></li>
+        }
+    </ul>
+</body>
+</html>

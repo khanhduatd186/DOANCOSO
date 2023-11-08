@@ -1,6 +1,7 @@
 ﻿using ApiPetShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Data;
 using System.Text;
@@ -64,6 +65,7 @@ namespace WebBanThu.Controllers
     
                     }
                     ViewBag.Times = times;
+                    ViewBag.Times1 = new SelectList(times, "Id", "StartTime");
 
                 }
                 return View(list);
@@ -91,7 +93,7 @@ namespace WebBanThu.Controllers
         //}
         [HttpPost]
         [Authorize(Roles = "CUTOMER")]
-        public async Task<IActionResult> DatLich(string email, int IdService)
+        public async Task<IActionResult> DatLich(string email, int IdService, string Time, string SelectedTime)
         {
             client.BaseAddress = new Uri(domain);
             HttpResponseMessage datajson = client.GetAsync("api/Account/GetUseByEmail/" + email).Result;
@@ -99,6 +101,7 @@ namespace WebBanThu.Controllers
             SignUpModel user = JsonConvert.DeserializeObject<SignUpModel>(data1);
             Service_CartModel p = new Service_CartModel
             {
+                Time = SelectedTime,
                 IdServie = IdService,
                 IdUser = user.id,
                 Quantity = 0,
@@ -148,7 +151,7 @@ namespace WebBanThu.Controllers
                     HttpResponseMessage datajson1 = client.GetAsync("api/Service/" + i.IdServie).Result;
                     string data2 = datajson1.Content.ReadAsStringAsync().Result;
                     ServiceModel service = JsonConvert.DeserializeObject<ServiceModel>(data2);
-                    Service_Cart service_Cart = new Service_Cart { dateTime = i.dateTime, Name = user.Name, Title = service.Tittle };
+                    Service_Cart service_Cart = new Service_Cart { dateTime = i.dateTime, Name = user.Name, Title = service.Tittle, Time = i.Time };
                     Service.Add(service_Cart);
                 }
             }

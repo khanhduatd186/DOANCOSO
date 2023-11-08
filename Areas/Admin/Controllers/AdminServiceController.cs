@@ -7,6 +7,7 @@ using WebBanThu.Areas.Admin.Models;
 namespace WebBanThu.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "ADMIN")]
     //[Authorize]
     public class AdminServiceController : Controller
     {

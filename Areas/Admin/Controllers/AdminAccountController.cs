@@ -1,12 +1,15 @@
 ﻿using ApiPetShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Data;
 using System.Text;
 using WebBanThu.Areas.Admin.Models;
 
 namespace WebBanThu.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "ADMIN")]
     public class AdminAccountController : Controller
     {
         string domain = "https://localhost:7253/";

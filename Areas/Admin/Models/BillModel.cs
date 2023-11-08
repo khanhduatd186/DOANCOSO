@@ -13,7 +13,8 @@ namespace WebBanThu.Areas.Admin.Models
         [Column(TypeName = "date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? dateTime { get; set; }
-       
+        
+        public int Status { get; set; }
         public string? IdUser { get; set; }
     }
 }

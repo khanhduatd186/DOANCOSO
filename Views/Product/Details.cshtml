@@ -68,6 +68,7 @@
             <!-- Blog Start -->
             <div class="container py-5">
                 <div class="row g-5">
+                <form asp-route-id="@product.Id" asp-action="AddToCart" asp-controller="ShoppingCart">
                     <div class="col-lg-8 d-flex">
                         <!-- Blog Detail Start -->
                         <div class="mb-5">
@@ -84,13 +85,15 @@
                             <div class="d-flex flex-column justify-content-start">
                                 <p class="card-text">Giá: @product.Price</p>
                                 <p class="card-text">Số lượng còn lại: @product.Quantity</p>
-                            @if (@product.Quantity > 0)
-                            {
-                                        <a href="" class="btn btn-primary">Thêm vào giỏ hàng</a>
-                            }
+                                @if (@product.Quantity > 0)
+                                {
+                                    <button  class="btn btn-primary">Thêm vào giỏ hàng</button>
+                                }
                             </div>
                         </div>
                     </div>
+                </form>
+                    
                 </div>
             </div>
 

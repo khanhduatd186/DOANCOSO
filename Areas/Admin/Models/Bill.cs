@@ -11,7 +11,7 @@ namespace WebBanThu.Areas.Admin.Models
         [Column(TypeName = "date")]
       
         public DateTime? dateTime { get; set; }
-
+        public int Status { get; set; }
         public string Name { get; set; }
     }
 }

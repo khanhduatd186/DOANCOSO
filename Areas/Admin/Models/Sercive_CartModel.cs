@@ -9,6 +9,7 @@ namespace WebBanThu.Areas.Admin.Models
     {
         public int IdServie { get; set; }
         public string IdUser { get; set; }
+        public string Time { get; set; }
         public int Quantity { get; set; }
         [Range(0, double.MaxValue)]
         public double Price { get; set; }

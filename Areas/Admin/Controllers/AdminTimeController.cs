@@ -8,6 +8,7 @@ namespace WebBanThu.Areas.Admin.Controllers
 {
     //[Authorize]
     [Area("Admin")]
+    [Authorize(Roles = "ADMIN")]
     public class AdminTimeController : Controller
     {
         string domain = "https://localhost:7253/";

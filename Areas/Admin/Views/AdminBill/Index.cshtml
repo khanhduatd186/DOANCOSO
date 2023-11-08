@@ -30,7 +30,13 @@
                         <th>
                             tên khách hàng
                         </th>
-                        <th></th>
+                        <th>
+                            Trạng Thái Đơn Hàng
+                        </th>
+                                    
+                        <th>
+                            Thao Tác
+                        </th>
                     </tr>
                 </thead>
                             <tfoot>
@@ -47,7 +53,12 @@
                         <th>
                             tên khách hàng
                         </th>
-                        <th></th>
+                        <th>
+                            Trạng Thái Đơn Hàng
+                        </th>
+                        <th>
+                            Thao Tác
+                        </th>
                     </tr>
                 </tfoot>
                             <tbody>
@@ -67,13 +78,32 @@
                                 @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
+                                    @if(item.Status == 0)
+                                    {
+                                        <p>Chưa Giao Hàng</p>
+                                    }
+                                    else{
+                                        <p>Đã Giao Hàng</p>
+                                    }
+                                </td>
+                                <td>
                                     <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-danger btn-icon-split">
                                         <span class="icon text-white-50">
                                             <i class="fas fa-trash"></i>
                                         </span>
                                         <span class="text">Xem</span>
                                     </a>
+                                    <form method="post" asp-action="Edit" asp-route-id="@item.Id">
+                                        <button  class="btn btn-danger btn-icon-split">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-trash"></i>
+                                            </span>
+                                            <span class="text">Cập Nhật Trạng Thái</span>
+                                        </button>
+                                    </form>
+                         
                                 </td>
+
                             </tr>
                     }
                 </tbody>
