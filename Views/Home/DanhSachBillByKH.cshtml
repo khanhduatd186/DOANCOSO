@@ -23,6 +23,9 @@
             <th>
                 Tên Khách
             </th>
+            <th>
+                Trang thái
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,11 +39,24 @@
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.dateTime)
+                    @{
+                        string parameterValue = item.dateTime.Value.ToShortDateString();
+                    }
+                @Html.DisplayFor(modelItem => parameterValue)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
+                <td>
+                    @if (item.Status == 0)
+                    {
+                        <p>Chưa Giao Hàng</p>
+                    }
+                    else
+                    {
+                        <p>Đã Giao Hàng</p>
+                    }
+                </td>
             <td>
                     <a class="btn btn-primary" href="@Url.Action("XemChiTietHoaDon", "Home", new { IdBill = item.Id })">Chi tiết</a>
                

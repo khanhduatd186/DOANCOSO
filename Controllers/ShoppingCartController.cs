@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using WebBanThu.Interface;
+using WebBanThu.Helpers;
 
 namespace WebBanThu.Controllers
 {
@@ -26,6 +27,7 @@ namespace WebBanThu.Controllers
         private readonly string _secretKey;
         private readonly IOptions<MomoOptionModel> _options;
         private readonly IEmailService _email;
+     
 
         public ShoppingCartController(IHttpContextAccessor httpContextAccessor,IConfiguration config, IOptions<MomoOptionModel> options, IEmailService emailService)
         {
@@ -33,7 +35,8 @@ namespace WebBanThu.Controllers
             _clientId = config["PaypalSettings:ClientId"];
             _secretKey = config["PaypalSettings:SecretKey"];
             _options = options;
-            _email = emailService; 
+            _email = emailService;
+         
         }
         string domain = "https://localhost:7253/";
         HttpClient client = new HttpClient();
@@ -147,17 +150,20 @@ namespace WebBanThu.Controllers
             SaveCartSession(cart);
             return RedirectToAction(nameof(Cart));
         }
+       
 
-        [HttpPost, ActionName("ThanhToan")]
-        public async Task<IActionResult> ThanhToan(OrderInfoModel model,double price)
+        [HttpPost, ActionName("ThanhToanMoMo")]
+        public async Task<IActionResult> ThanhToanMoMo(OrderInfoModel model,string total)
         {
             List<string> ProductImages = new List<string>();    
             string email = User.Identity.Name;
+            double price = double.Parse(total);
             ViewBag.Domain = domain;
             client.BaseAddress = new Uri(domain);
             SignUpModel user = new SignUpModel();
             string data = await client.GetStringAsync("api/Account/GetUseByEmail/" + email);
             user = JsonConvert.DeserializeObject<SignUpModel>(data);
+
             model.OrderId = DateTime.UtcNow.Ticks.ToString();
             model.OrderInfo = "Khách hàng: " + user.Name + ". Nội dung: " + "thanh toan don hang";
             var rawData =
@@ -184,11 +190,242 @@ namespace WebBanThu.Controllers
                 extraData = "",
                 signature = signature
             };
-
             request.AddParameter("application/json", JsonConvert.SerializeObject(requestData), ParameterType.RequestBody);
-
             var response = await client1.ExecuteAsync(request);
+            var kq = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+            return Redirect(kq.PayUrl);
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    BillModel donHang = new BillModel
+            //    {
+            //        Status = 0,
+            //        IdUser = user.id,
+            //        dateTime = DateTime.UtcNow,
+            //        Price = 0
+            //    };
+            //    string data1 = JsonConvert.SerializeObject(donHang);
+            //    StringContent content = new StringContent(data1, Encoding.UTF8, "application/json");
+            //    HttpResponseMessage responseMessage = client.PostAsync("api/Bill", content).Result;
+            //    if (responseMessage.IsSuccessStatusCode)
+            //    {
+            //        HttpResponseMessage datajson = client.GetAsync("api/Bill").Result;
+            //        string data3 = datajson.Content.ReadAsStringAsync().Result;
+            //        List<BillModel> bill = JsonConvert.DeserializeObject<List<BillModel>>(data3);
 
+            //        foreach (var item in bill)
+            //        {
+            //            if (item.Price == 0)
+            //            {
+            //                foreach (var item1 in GetCartItems())
+            //                {
+            //                    var chitietdonhang = new Product_BillModel
+            //                    {
+            //                        IdBill = item.Id,
+            //                        IdProduct = item1.product.Id,
+            //                        Quantity = item1.quantity,
+            //                        Price = item1.product.Price
+            //                    };
+            //                    string data2 = JsonConvert.SerializeObject(chitietdonhang);
+            //                    StringContent content1 = new StringContent(data2, Encoding.UTF8, "application/json");
+            //                    HttpResponseMessage responseMessage1 = client.PostAsync("api/Product_Bill", content1).Result;
+
+            //                    HttpResponseMessage datajson1 = client.GetAsync("api/Product/" + item1.product.Id).Result;
+            //                    string data5 = datajson1.Content.ReadAsStringAsync().Result;
+            //                    ProductModel productup = JsonConvert.DeserializeObject<ProductModel>(data5);
+
+            //                    ProductModel productup1 = new ProductModel
+            //                    {
+            //                        Id = productup.Id,
+            //                        Image = productup.Image,
+            //                        Price = productup.Price,
+            //                        CategoryId = productup.CategoryId,
+            //                        Quantity = productup.Quantity - item1.quantity,
+            //                        Description = productup.Description,
+            //                        Isdelete = productup.Isdelete,
+            //                        Tittle = productup.Tittle
+            //                    };
+            //                    ProductImages.Add(productup1.Image);
+            //                    string data6 = JsonConvert.SerializeObject(productup1);
+            //                    StringContent content5 = new StringContent(data6, Encoding.UTF8, "application/json");
+            //                    HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productup.Id, content5).Result;
+
+            //                }
+            //                BillModel bill1 = new BillModel
+            //                {
+            //                    Status = item.Status,
+            //                    Id = item.Id,
+            //                    IdUser = item.IdUser,
+            //                    dateTime = item.dateTime,
+            //                    Price = price
+            //                };
+            //                string data4 = JsonConvert.SerializeObject(bill1);
+            //                StringContent content4 = new StringContent(data4, Encoding.UTF8, "application/json");
+            //                HttpResponseMessage responseMessage4 = client.PutAsync("api/Bill/" + item.Id, content4).Result;
+            //                if (responseMessage4.IsSuccessStatusCode)
+            //                {
+            //                    HttpContext.Session.Remove(CARTKEY);
+            //                    //var kq = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+            //                    string to = email;
+            //                    string subject = "Thanh toán thành công";
+            //                    string body = "Thanh toán của bạn đã thành công.";
+            //                    //_email.SendPaymentConfirmationEmail(to, subject, body,ProductImages);
+            //                    return Redirect(kq.PayUrl);
+            //                }
+
+            //            }
+            //        }
+
+            //    }
+
+            //}
+            //else
+            //{
+            //    return RedirectToAction(nameof(Cart));
+            //}
+
+            return null;
+
+
+        }
+        public MomoExecuteResponseModel PaymentExecuteAsync([FromServices] IQueryCollection collection)
+        {
+            var amount = collection.First(s => s.Key == "amount").Value;
+            var orderInfo = collection.First(s => s.Key == "orderInfo").Value;
+            var orderId = collection.First(s => s.Key == "orderId").Value;
+            int errorcode =int.Parse(collection.First(s => s.Key == "errorCode").Value);
+            return new MomoExecuteResponseModel()
+            {
+                Amount = amount,
+                OrderId = orderId,
+                OrderInfo = orderInfo,
+                ErrorCode = errorcode
+                
+            };
+        }
+      
+        public async Task<IActionResult> PaymentcallBackAsync()
+        {
+            try
+            {
+                var response = HttpContext.Request.Query["errorCode"];
+                
+                if (!response.Equals("0"))
+                {
+                    return RedirectToAction(nameof(Cart));
+                }
+                else
+                {
+                    List<string> ProductImages = new List<string>();
+                    string email = User.Identity.Name;
+                    ViewBag.Domain = domain;
+                    client.BaseAddress = new Uri(domain);
+                    SignUpModel user = new SignUpModel();
+                    string data = await client.GetStringAsync("api/Account/GetUseByEmail/" + email);
+                    user = JsonConvert.DeserializeObject<SignUpModel>(data);
+                    int price =int.Parse( HttpContext.Request.Query["amount"]);
+                    BillModel donHang = new BillModel
+                    {
+                        Status = 0,
+                        IdUser = user.id,
+                        dateTime = DateTime.UtcNow,
+                        Price = 0
+                    };
+                    string data1 = JsonConvert.SerializeObject(donHang);
+                    StringContent content = new StringContent(data1, Encoding.UTF8, "application/json");
+                    HttpResponseMessage responseMessage = client.PostAsync("api/Bill", content).Result;
+                    if (responseMessage.IsSuccessStatusCode)
+                    {
+                        HttpResponseMessage datajson = client.GetAsync("api/Bill").Result;
+                        string data3 = datajson.Content.ReadAsStringAsync().Result;
+                        List<BillModel> bill = JsonConvert.DeserializeObject<List<BillModel>>(data3);
+
+                        foreach (var item in bill)
+                        {
+                            if (item.Price == 0)
+                            {
+                                foreach (var item1 in GetCartItems())
+                                {
+                                    var chitietdonhang = new Product_BillModel
+                                    {
+                                        IdBill = item.Id,
+                                        IdProduct = item1.product.Id,
+                                        Quantity = item1.quantity,
+                                        Price = item1.product.Price
+                                    };
+                                    string data2 = JsonConvert.SerializeObject(chitietdonhang);
+                                    StringContent content1 = new StringContent(data2, Encoding.UTF8, "application/json");
+                                    HttpResponseMessage responseMessage1 = client.PostAsync("api/Product_Bill", content1).Result;
+
+                                    HttpResponseMessage datajson1 = client.GetAsync("api/Product/" + item1.product.Id).Result;
+                                    string data5 = datajson1.Content.ReadAsStringAsync().Result;
+                                    ProductModel productup = JsonConvert.DeserializeObject<ProductModel>(data5);
+
+                                    ProductModel productup1 = new ProductModel
+                                    {
+                                        Id = productup.Id,
+                                        Image = productup.Image,
+                                        Price = productup.Price,
+                                        CategoryId = productup.CategoryId,
+                                        Quantity = productup.Quantity - item1.quantity,
+                                        Description = productup.Description,
+                                        Isdelete = productup.Isdelete,
+                                        Tittle = productup.Tittle
+                                    };
+                                    ProductImages.Add(productup1.Image);
+                                    string data6 = JsonConvert.SerializeObject(productup1);
+                                    StringContent content5 = new StringContent(data6, Encoding.UTF8, "application/json");
+                                    HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productup.Id, content5).Result;
+
+                                }
+
+                                BillModel bill1 = new BillModel
+                                {
+                                    Status = 1,
+                                    Id = item.Id,
+                                    IdUser = item.IdUser,
+                                    dateTime = item.dateTime,
+                                    Price = price
+                                };
+                                string data4 = JsonConvert.SerializeObject(bill1);
+                                StringContent content4 = new StringContent(data4, Encoding.UTF8, "application/json");
+                                HttpResponseMessage responseMessage4 = client.PutAsync("api/Bill/" + item.Id, content4).Result;
+                                if (responseMessage4.IsSuccessStatusCode)
+                                {
+                                    HttpContext.Session.Remove(CARTKEY);
+                                    //var kq = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+                                    string to = email;
+                                    string subject = "Thanh toán thành công";
+                                    string body = "Thanh toán của bạn đã thành công.";
+                                    //_email.SendPaymentConfirmationEmail(to, subject, body,ProductImages);
+                                    return RedirectToAction(nameof(Cart));
+
+                                }
+                                
+                            }
+                        }
+
+                    }
+                }
+                return BadRequest();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+
+        }
+        [HttpPost, ActionName("ThanhToan")]
+        public async Task<IActionResult> ThanhToan(string total)
+        {
+            List<string> ProductImages = new List<string>();
+            string email = User.Identity.Name;
+            ViewBag.Domain = domain;
+            client.BaseAddress = new Uri(domain);
+            SignUpModel user = new SignUpModel();
+            string data = await client.GetStringAsync("api/Account/GetUseByEmail/" + email);
+            user = JsonConvert.DeserializeObject<SignUpModel>(data);
+           
             BillModel donHang = new BillModel
             {
                 Status = 0,
@@ -222,7 +459,7 @@ namespace WebBanThu.Controllers
                             StringContent content1 = new StringContent(data2, Encoding.UTF8, "application/json");
                             HttpResponseMessage responseMessage1 = client.PostAsync("api/Product_Bill", content1).Result;
 
-                            HttpResponseMessage datajson1 = client.GetAsync("api/Product/"+item1.product.Id).Result;
+                            HttpResponseMessage datajson1 = client.GetAsync("api/Product/" + item1.product.Id).Result;
                             string data5 = datajson1.Content.ReadAsStringAsync().Result;
                             ProductModel productup = JsonConvert.DeserializeObject<ProductModel>(data5);
 
@@ -243,13 +480,14 @@ namespace WebBanThu.Controllers
                             HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productup.Id, content5).Result;
 
                         }
+
                         BillModel bill1 = new BillModel
                         {
                             Status = item.Status,
                             Id = item.Id,
                             IdUser = item.IdUser,
                             dateTime = item.dateTime,
-                            Price = price
+                            Price =double.Parse(total)
                         };
                         string data4 = JsonConvert.SerializeObject(bill1);
                         StringContent content4 = new StringContent(data4, Encoding.UTF8, "application/json");
@@ -257,28 +495,19 @@ namespace WebBanThu.Controllers
                         if (responseMessage4.IsSuccessStatusCode)
                         {
                             HttpContext.Session.Remove(CARTKEY);
-                            var kq = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
+                            //var kq = JsonConvert.DeserializeObject<MomoCreatePaymentResponseModel>(response.Content);
                             string to = email;
                             string subject = "Thanh toán thành công";
                             string body = "Thanh toán của bạn đã thành công.";
-                            _email.SendPaymentConfirmationEmail(to, subject, body,ProductImages);
-                            return Redirect(kq.PayUrl);
-                        }
-                
+                            //_email.SendPaymentConfirmationEmail(to, subject, body,ProductImages);
 
+                        }
+                        
                     }
                 }
-              
+
             }
-            return null;
-
-
-        }
-        [HttpGet]
-        public IActionResult PaymentExecuteAsync(IQueryCollection collection)
-        {
-
-            return RedirectToAction("ShoppingCart", "Cart");
+            return RedirectToAction(nameof(Cart));
         }
         private string ComputeHmacSha256(string message, string secretKey)
         {

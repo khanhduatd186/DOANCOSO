@@ -51,7 +51,7 @@ namespace WebBanThu.Controllers
             {
                 string data1 = await client.GetStringAsync("api/Account/GetUserById/" + i.IdUser);
                 UserModel user1 = JsonConvert.DeserializeObject<UserModel>(data);
-                var bill = new Bill { Id = i.Id, Price = i.Price, dateTime = i.dateTime, Name = user.Name };
+                var bill = new Bill { Id = i.Id, Price = i.Price, dateTime = i.dateTime, Name = user.Name,Status = i.Status };
                 bills.Add(bill);
             }
             return View(bills);

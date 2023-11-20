@@ -53,9 +53,61 @@
         </tr>
     </table>
 
-    <form method="post" asp-controller="ShoppingCart" asp-action="ThanhToan" asp-route-price="@(total.ToString("n0"))">
-        <button type="submit" class="btn btn-success">Gửi đơn hàng</button>
+    
+    <form asp-controller="ShoppingCart" asp-action="" method="post" onsubmit="return validateForm()">
+        <label>
+            <input type="radio" name="payment_method" value="ThanhToanMoMo" onclick="updateTotal('@total.ToString("n0")')"> Thanh toán qua Momo
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="payment_method" value="ThanhToan" onclick="updateTotal('@total.ToString("n0")')"> Thanh toán trực tiếp
+        </label>
+        <br>
+        <input type="hidden" name="selected_payment_method" id="selected_payment_method" value="" />
+        <input type="hidden" name="total" id="total" value="@total.ToString("n0")" />
+        <button type="submit" class="btn btn-success">Tiếp tục thanh toán</button>
     </form>
+
+    <script>
+        function updateTotal(total) {
+            document.getElementById('total').value = total;
+        }
+        // Hàm này được gọi khi form được submit để thiết lập giá trị cho input ẩn và asp-action
+        function validateForm() {
+            var selectedPaymentMethod = getSelectedPaymentMethod();
+            if (selectedPaymentMethod) {
+                document.getElementById('selected_payment_method').value = selectedPaymentMethod;
+                document.forms[0].action = determineAction(selectedPaymentMethod);
+                return true;
+            } else {
+                alert("Vui lòng chọn một phương thức thanh toán.");
+                return false;
+            }
+        }
+
+        // Hàm này trả về phương thức thanh toán được chọn
+        function getSelectedPaymentMethod() {
+            var radioButtons = document.getElementsByName("payment_method");
+            for (var i = 0; i < radioButtons.length; i++) {
+                if (radioButtons[i].checked) {
+                    return radioButtons[i].value;
+                }
+            }
+            return null;
+        }
+
+        // Hàm này xác định asp-action dựa trên phương thức thanh toán
+        function determineAction(paymentMethod) {
+            if (paymentMethod === "ThanhToanMoMo") {
+                return "ThanhToanMoMo";
+            } else if (paymentMethod === "ThanhToan") {
+                return "ThanhToan";
+            }
+            // Mặc định nếu không có phương thức nào được chọn
+            return "";
+        }
+    </script>
+    
 
     @section Scripts {
     <script>

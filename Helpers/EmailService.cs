@@ -1,5 +1,4 @@
 ﻿
-
 using Microsoft.Extensions.Options;
 using MimeKit;
 
@@ -30,28 +29,39 @@ namespace WebBanThu.Helpers
                 ProductImages = productImages
             };
 
-            var templatePath = Path.Combine("Views", "EmailTemplates", "PaymentConfirmationEmail.cshtml");
+            var templatePath = Path.Combine("Views", "EmailTemplates", "PaymentConfirmationEmail");
             var emailHtml = File.ReadAllText(templatePath);
-
-            using (var client = new SmtpClient(_smtpSettings.SmtpServer))
+            try
             {
-                client.Port = _smtpSettings.Port;
-                client.UseDefaultCredentials = false;
-                client.Credentials = new NetworkCredential(_smtpSettings.Email, _smtpSettings.Password);
-                client.EnableSsl = true;
-
-                var mailMessage = new MailMessage
+                using (var client = new SmtpClient(_smtpSettings.SmtpServer))
                 {
-                    From = new MailAddress(_smtpSettings.Email),
-                    Subject = subject,
-                    Body = emailHtml,
-                    IsBodyHtml = true
-                };
+                    client.Port = _smtpSettings.Port;
+                    client.UseDefaultCredentials = false;
+                    client.Credentials = new NetworkCredential(_smtpSettings.Email, _smtpSettings.Password);
+                    client.EnableSsl = true;
 
-                mailMessage.To.Add(toEmail);
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(_smtpSettings.Email),
+                        Subject = subject,
+                        Body = emailHtml,
+                        IsBodyHtml = true
+                    };
 
-                client.Send(mailMessage);
+                    mailMessage.To.Add(toEmail);
+
+                    client.Send(mailMessage);
+                }
+
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            
+
         }
     }
     
