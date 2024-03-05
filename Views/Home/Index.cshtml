@@ -117,7 +117,8 @@
         <!-- Products Start -->
         <div class="container-fluid py-5">
             <div class="container" >
-              
+
+            
                 @foreach (var product in ViewBag.Products)
                 {
                     if (product.Isdelete == 0)
@@ -134,18 +135,7 @@
                                     <p class="card-text">Giá: @product.Price</p>
                                     
                                     <form asp-route-id="@product.Id" asp-action="AddToCart" asp-controller="ShoppingCart">
-                                        <div class="mb-5">
-                                            <div class="input-group mb-3" style="max-width: 120px;">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                                                </div>
-                                                <input type="text" class="form-control text-center" value="1" name="SoLuong" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                                                </div>
-                                            </div>
-
-                                        </div>
+                                     
                                         <a class="btn btn-primary" asp-route-id="@product.Id" asp-action="Details" asp-controller="Product">Chi tiết</a>
                                         <p><button class="buy-now btn btn-sm btn-primary">Add To Cart</button></p>
                                     </form>
@@ -157,6 +147,7 @@
    
                     }
 
+
                 }
 
                 <a asp-controller="Product" asp-action="Index" class="nav-item nav-link">Xem thêm thú cưng</a>
@@ -166,14 +157,15 @@
         </div>
 
         <!-- Products End -->
-       
+    
     <script src="/content/js/site.js"></script>
     <script src="/content/js/cart.js"></script>
+    
+
     </body>
 
     </html>
     
-}
 
 
 

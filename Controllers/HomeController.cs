@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 using WebBanThu.Areas.Admin.Models;
 using WebBanThu.Models;
 
@@ -77,8 +78,37 @@ namespace WebBanThu.Controllers
 
         }
 
-      
 
+        [ActionName("HuyDon")]
+        public async Task<IActionResult> HuyDon(int IdBill)
+        {
+            ViewBag.Domain = domain;
+            client.BaseAddress = new Uri(domain);
+            BillModel bill = new BillModel();
+            string data = await client.GetStringAsync("api/Bill/" + IdBill);
+            bill = JsonConvert.DeserializeObject<BillModel>(data);
+
+            BillModel billModel = new BillModel
+            {
+                Id = bill.Id,
+                dateTime = bill.dateTime,
+                IdUser = bill.IdUser,
+                IsDelete = 0,
+                Price = bill.Price,
+                Status = 2,
+            };
+            string data4 = JsonConvert.SerializeObject(billModel);
+            StringContent content4 = new StringContent(data4, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage4 = client.PutAsync("api/Bill/" + IdBill, content4).Result;
+            if (responseMessage4.IsSuccessStatusCode)
+            {
+
+                return RedirectToAction(nameof(DanhSachBillByKH));
+
+            }
+            return BadRequest();
+
+        }
         public IActionResult Privacy()
         {
             return View();

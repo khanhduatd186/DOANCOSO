@@ -10,15 +10,11 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.id)
-            </th>
+   
             <th>
                 Tên Sản Phẩm
             </th>
-            <th>
-                Số Lượng
-            </th>
+          
             <th>
                 Giá
             </th>
@@ -28,15 +24,11 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.id)
-            </td>
+    
             <td>
                 @Html.DisplayFor(modelItem => item.Tittle)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-            </td>
+        
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>

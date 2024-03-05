@@ -86,8 +86,9 @@ namespace WebBanThu.Controllers
             var cartitem = cart.Find(p => p.product.Id == id);
             if (cartitem != null)
             {
-                // Đã tồn tại, tăng thêm 1
-                cartitem.quantity++;
+                TempData["CartMessage"] = "Sản phẩm đã tồn tại trong giỏ hàng.";
+             
+                ViewBag.CartMessage = TempData["CartMessage"];
             }
             else
             {
@@ -315,9 +316,12 @@ namespace WebBanThu.Controllers
                 }
                 else
                 {
+                    TimeZoneInfo serverTimeZone = TimeZoneInfo.Local;
                     List<string> ProductImages = new List<string>();
+                    DateTime currentDateTime = TimeZoneInfo.ConvertTime(DateTime.Now, serverTimeZone);
                     string email = User.Identity.Name;
                     ViewBag.Domain = domain;
+                    TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
                     client.BaseAddress = new Uri(domain);
                     SignUpModel user = new SignUpModel();
                     string data = await client.GetStringAsync("api/Account/GetUseByEmail/" + email);
@@ -325,9 +329,10 @@ namespace WebBanThu.Controllers
                     int price =int.Parse( HttpContext.Request.Query["amount"]);
                     BillModel donHang = new BillModel
                     {
+                   
                         Status = 0,
                         IdUser = user.id,
-                        dateTime = DateTime.UtcNow,
+                        dateTime = currentDateTime,
                         Price = 0
                     };
                     string data1 = JsonConvert.SerializeObject(donHang);
@@ -349,7 +354,7 @@ namespace WebBanThu.Controllers
                                     {
                                         IdBill = item.Id,
                                         IdProduct = item1.product.Id,
-                                        Quantity = item1.quantity,
+                                        Quantity = 1,
                                         Price = item1.product.Price
                                     };
                                     string data2 = JsonConvert.SerializeObject(chitietdonhang);
@@ -366,15 +371,15 @@ namespace WebBanThu.Controllers
                                         Image = productup.Image,
                                         Price = productup.Price,
                                         CategoryId = productup.CategoryId,
-                                        Quantity = productup.Quantity - item1.quantity,
+                                        Quantity = productup.Quantity,
                                         Description = productup.Description,
-                                        Isdelete = productup.Isdelete,
+                                        Isdelete = 1,
                                         Tittle = productup.Tittle
                                     };
                                     ProductImages.Add(productup1.Image);
                                     string data6 = JsonConvert.SerializeObject(productup1);
                                     StringContent content5 = new StringContent(data6, Encoding.UTF8, "application/json");
-                                    HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productup.Id, content5).Result;
+                                    HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productup1.Id, content5).Result;
 
                                 }
 
@@ -383,7 +388,7 @@ namespace WebBanThu.Controllers
                                     Status = 1,
                                     Id = item.Id,
                                     IdUser = item.IdUser,
-                                    dateTime = item.dateTime,
+                                    dateTime = currentDateTime,
                                     Price = price
                                 };
                                 string data4 = JsonConvert.SerializeObject(bill1);
@@ -414,23 +419,32 @@ namespace WebBanThu.Controllers
             }
 
 
+
         }
+        
+        
         [HttpPost, ActionName("ThanhToan")]
         public async Task<IActionResult> ThanhToan(string total)
         {
+            TimeZoneInfo serverTimeZone = TimeZoneInfo.Local;
+
+            // Chuyển đổi từ UTC sang múi giờ của máy chủ
+            DateTime currentDateTime = TimeZoneInfo.ConvertTime(DateTime.Now, serverTimeZone);
             List<string> ProductImages = new List<string>();
             string email = User.Identity.Name;
             ViewBag.Domain = domain;
             client.BaseAddress = new Uri(domain);
+            TimeZoneInfo vietnamTimeZone = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time");
             SignUpModel user = new SignUpModel();
             string data = await client.GetStringAsync("api/Account/GetUseByEmail/" + email);
             user = JsonConvert.DeserializeObject<SignUpModel>(data);
-           
+
+            
             BillModel donHang = new BillModel
             {
                 Status = 0,
                 IdUser = user.id,
-                dateTime = DateTime.UtcNow,
+                dateTime = currentDateTime.ToLocalTime(),
                 Price = 0
             };
             string data1 = JsonConvert.SerializeObject(donHang);
@@ -469,10 +483,11 @@ namespace WebBanThu.Controllers
                                 Image = productup.Image,
                                 Price = productup.Price,
                                 CategoryId = productup.CategoryId,
-                                Quantity = productup.Quantity - item1.quantity,
+                                Quantity = productup.Quantity,
                                 Description = productup.Description,
-                                Isdelete = productup.Isdelete,
-                                Tittle = productup.Tittle
+                                Isdelete = 1,
+                                Tittle = productup.Tittle,
+                               
                             };
                             ProductImages.Add(productup1.Image);
                             string data6 = JsonConvert.SerializeObject(productup1);
@@ -486,7 +501,7 @@ namespace WebBanThu.Controllers
                             Status = item.Status,
                             Id = item.Id,
                             IdUser = item.IdUser,
-                            dateTime = item.dateTime,
+                            dateTime = currentDateTime,
                             Price =double.Parse(total)
                         };
                         string data4 = JsonConvert.SerializeObject(bill1);

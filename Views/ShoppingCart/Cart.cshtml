@@ -34,13 +34,10 @@
                  </td>
                 <td>@cartitem.product.Tittle</td>
                 <td>@(cartitem.product.Price.ToString("n0"))</td>
-                <td><input asp-for="@cartitem.quantity" id="@($"quantity-{cartitem.product.Id}")" /></td>
+                <td>1</td>
                 <td>@(thanhtien.ToString("n0"))</td>
                 <td>
-                    <button class="btn btn-success updatecartitem"
-                    data-productid="@cartitem.product.Id">
-                        Cập nhật
-                    </button>
+                    
                     <a asp-route="removecart" asp-route-productid="@cartitem.product.Id"
                class="btn btn-danger">Xóa</a>
                 </td>

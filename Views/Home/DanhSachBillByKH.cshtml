@@ -11,9 +11,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
+          
             <th>
                 Giá
             </th>
@@ -32,15 +30,13 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Price)
             </td>
             <td>
                     @{
-                        string parameterValue = item.dateTime.Value.ToShortDateString();
+                        string parameterValue = item.dateTime.DateTime.ToString();
                     }
                 @Html.DisplayFor(modelItem => parameterValue)
             </td>
@@ -52,14 +48,30 @@
                     {
                         <p>Chưa Giao Hàng</p>
                     }
-                    else
+                    else if (item.Status == 1)
                     {
                         <p>Đã Giao Hàng</p>
                     }
+                    else if (item.Status == 2)
+                    {
+                        <p>Đang xử lý yêu cầu hủy đơn</p>
+                    }
+                    else if (item.Status == 3)
+                    {
+                        <p>đơn đã được hủy</p>
+                    }
                 </td>
             <td>
-                    <a class="btn btn-primary" href="@Url.Action("XemChiTietHoaDon", "Home", new { IdBill = item.Id })">Chi tiết</a>
-               
+                    @if(item.Status == 1 || item.Status == 0)
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("XemChiTietHoaDon", "Home", new { IdBill = item.Id })">Chi tiết</a>
+                    }
+                   
+                    @if(item.Status == 0)
+                    {
+                        <a class="btn btn-primary" href="@Url.Action("HuyDon", "Home", new { IdBill = item.Id })">Hủy Đơn</a>
+                    }
+
             </td>
         </tr>
 }

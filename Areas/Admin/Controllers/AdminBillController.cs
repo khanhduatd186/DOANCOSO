@@ -98,6 +98,7 @@ namespace WebBanThu.Areas.Admin.Controllers
                     IdUser = Bill.IdUser,
                     Price = Bill.Price,
                     dateTime = Bill.dateTime,
+                    IsDelete = Bill.IsDelete,
                     Status = 1,
 
                 };
@@ -116,6 +117,72 @@ namespace WebBanThu.Areas.Admin.Controllers
                 return View();
             }
             return View();
+
+        }
+
+
+        [ActionName("HuyDon")]
+        public async Task<IActionResult> HuyDon(int id)
+        {
+            ViewBag.Domain = domain;
+            client.BaseAddress = new Uri(domain);
+            BillModel bill = new BillModel();
+            string data = await client.GetStringAsync("api/Bill/" + id);
+            
+            List<Product_BillModel> product_Bills = new List<Product_BillModel>();
+            bill = JsonConvert.DeserializeObject<BillModel>(data);
+
+            BillModel billModel = new BillModel
+            {
+                Id = bill.Id,
+                dateTime = bill.dateTime,
+                IdUser = bill.IdUser,
+                IsDelete = 0,
+                Price = bill.Price,
+                Status = 3,
+            };
+            string data4 = JsonConvert.SerializeObject(billModel);
+            StringContent content4 = new StringContent(data4, Encoding.UTF8, "application/json");
+            HttpResponseMessage responseMessage4 = client.PutAsync("api/Bill/" + id, content4).Result;
+            if (responseMessage4.IsSuccessStatusCode)
+            {
+                string data5 = await client.GetStringAsync("api/Product_Bill/" + id);
+                product_Bills = JsonConvert.DeserializeObject<List<Product_BillModel>>(data5);
+                foreach( Product_BillModel product_Bill1 in product_Bills)
+                {
+                    try
+                    {
+                        string data6 = await client.GetStringAsync("api/Product/" + product_Bill1.IdProduct);
+                        ProductModel product = JsonConvert.DeserializeObject<ProductModel>(data6);
+                        ProductModel productModel = new ProductModel
+                        {
+                            Id = product.Id,
+                            CategoryId = product.CategoryId,
+                            Description = product.Description,
+                            Image = product.Image,
+                            Price = product.Price,
+                            Quantity = product.Quantity,
+                            Tittle = product.Tittle,
+                            Isdelete = 0
+                        };
+                        string data7 = JsonConvert.SerializeObject(productModel);
+                        StringContent content5 = new StringContent(data7, Encoding.UTF8, "application/json");
+                        HttpResponseMessage responseMessage5 = client.PutAsync("api/Product/" + productModel.Id, content5).Result;
+                    }
+                    catch
+                    {
+                        return BadRequest();
+                    }
+                   
+
+                }
+
+
+
+                return RedirectToAction(nameof(Index));
+
+            }
+            return BadRequest();
 
         }
         [HttpGet]
